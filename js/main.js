@@ -38,7 +38,10 @@ let calculate = (event) => {
     if (getGenderValue() === 'female') {
         result = ((10 * getWeightValue()) + (6.25 * getHeightValue()) - (5 * getAgeValue()) - 161) * getActivityValue();
     }
-    result = result.toFixed()
+
+    let resultSection = document.querySelector('.counter__result');
+    resultSection.classList.remove('counter__result--hidden');
+    resultSection.querySelector('#calories-norm').innerHTML = result.toFixed();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
