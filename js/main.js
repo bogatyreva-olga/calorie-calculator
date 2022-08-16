@@ -19,24 +19,26 @@ let getWeightValue = () => {
 }
 
 let checkEnableCalculateButton = () => {
-    if (getAgeValue() !== "" && getHeightValue() !== "" && getWeightValue() !== "") {
-        document.querySelector('#button-calculator').disabled = false;
-    } else {
-        document.querySelector('#button-calculator').disabled = true;
-    }
+    document.querySelector('#button-calculator').disabled = !(getAgeValue() && getHeightValue() && getWeightValue());
 }
 
-let getGenderValue = () => document.querySelector( "input[name='gender']:checked");
+let getGenderValue = () => document.querySelector("input[name='gender']:checked").value;
 
-let activeValue = () => document.querySelector( "input[name='activity']:checked");
+let getActivityValue = () => {
+    let activityValue = document.querySelector("input[name='activity']:checked").value;
+    return activityFactor[activityValue];
+};
 
-let calculate = () => {
-    if (getGenderValue.value === 'male') {
-        return (10 * getWeightValue()) + (6.25 * getHeightValue()) - (5 * getAgeValue()) + 5;
+let calculate = (event) => {
+    event.preventDefault();
+    let result = 0;
+    if (getGenderValue() === 'male') {
+        result = ((10 * getWeightValue()) + (6.25 * getHeightValue()) - (5 * getAgeValue()) + 5) * getActivityValue();
     }
-    if (getGenderValue.value === 'female') {
-        return (10 * getWeightValue()) + (6.25 * getHeightValue()) - (5 * getAgeValue()) - 161;
+    if (getGenderValue() === 'female') {
+        result = ((10 * getWeightValue()) + (6.25 * getHeightValue()) - (5 * getAgeValue()) - 161) * getActivityValue();
     }
+    result = result.toFixed()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
