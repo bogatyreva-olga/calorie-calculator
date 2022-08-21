@@ -26,9 +26,7 @@ let checkEnableResetButton = () => {
     if (getAgeValue() !== '' || getHeightValue() !== '' || getWeightValue() !== '') {
         document.querySelector('.form__reset-button').disabled = false;
     }
-    if (!(getAgeValue() || getHeightValue() ||
-
-        getWeightValue())) {
+    if (!(getAgeValue() || getHeightValue() || getWeightValue())) {
         document.querySelector('.form__reset-button').disabled = true;
     }
 }
@@ -37,7 +35,7 @@ let getGenderValue = () => document.querySelector("input[name='gender']:checked"
 
 let getActivityValue = () => {
     let activityValue = document.querySelector("input[name='activity']:checked").value;
-   return activityFactor[activityValue];
+    return activityFactor[activityValue];
 };
 
 let calculate = (event) => {
@@ -57,23 +55,20 @@ let calculate = (event) => {
     let maxResultCalories = result + (result * 0.15);
     resultSection.querySelector('#calories-minimal').innerHTML = minResultCalories.toFixed();
     resultSection.querySelector('#calories-maximal').innerHTML = maxResultCalories.toFixed();
-}
+};
+
+let checkEnabledButtons = () => {
+    checkEnableCalculateButton();
+    checkEnableResetButton();
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#button-calculator').addEventListener('click', calculate);
-    document.querySelector('#age').addEventListener('change', () => {
-        checkEnableCalculateButton()
-        checkEnableResetButton()
+    document.querySelector('#age').addEventListener('change', checkEnabledButtons);
+    document.querySelector('#height').addEventListener('change', checkEnabledButtons);
+    document.querySelector('#weight').addEventListener('change', checkEnabledButtons);
+    document.querySelector('.form__reset-button').addEventListener('click', () => {
+        document.querySelector('.counter__result').classList.add('counter__result--hidden');
+        setTimeout(checkEnabledButtons, 200);
     });
-    document.querySelector('#height').addEventListener('change', () => {
-        checkEnableCalculateButton()
-        checkEnableResetButton()
-    });
-    document.querySelector('#weight').addEventListener('change', () => {
-        checkEnableCalculateButton()
-        checkEnableResetButton()
-    });
-   document.querySelector('.form__reset-button').addEventListener('click', () => {
-       document.querySelector('.counter__result').classList.add('counter__result--hidden');
-   })
-})
+});
